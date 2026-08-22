@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Политика конфиденциальности — Табель: Отчёты по сменам</title>
+<meta name="description" content="Политика конфиденциальности приложения Табель: локальное хранение данных, безопасность и защита информации.">
+<link rel="canonical" href="https://mirorstar.github.io/tabel/privacy.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="canonical" href="https://mirorstar.github.io/tabel/privacy.html">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08090e; --bg-surface: #10121b; --bg-card: #141724;
+    --border: rgba(255, 255, 255, 0.08); --accent: #4a8fe8;
+    --text-main: #f8fafc; --text-muted: #94a3b8; --text-dim: #64748b;
+  }
+  [data-theme="light"] {
+    --bg: #f8fafc; --bg-surface: #ffffff; --bg-card: #ffffff;
+    --border: rgba(0, 0, 0, 0.08); --accent: #2563eb;
+    --text-main: #0f172a; --text-muted: #475569; --text-dim: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+    background: var(--bg); color: var(--text-main);
+    line-height: 1.7; padding: 0; -webkit-font-smoothing: antialiased;
+  }
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 6%; background: var(--bg-surface); border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text-main); letter-spacing: 2px; }
+  .nav-logo span { color: var(--accent); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .nav-right a { color: var(--accent); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+  .theme-toggle {
+    background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main);
+    width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .content { max-width: 760px; margin: 0 auto; padding: 60px 24px 80px; }
+  h1 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; margin-bottom: 8px; letter-spacing: 1px; }
+  .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 36px; }
+  h2 { font-size: 1.25rem; font-weight: 700; margin: 36px 0 12px; color: var(--accent); letter-spacing: 0.5px; }
+  p { color: var(--text-muted); margin-bottom: 14px; font-size: 0.98rem; font-weight: 300; }
+  ul { color: var(--text-muted); padding-left: 24px; margin-bottom: 16px; font-size: 0.95rem; }
+  li { margin-bottom: 8px; }
+  a { color: var(--accent); }
+  footer {
+    text-align: center; padding: 36px 6%; color: var(--text-dim); font-size: 0.82rem;
+    border-top: 1px solid var(--border); background: var(--bg-surface);
+  }
+  footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">ТАБЕЛЬ <span>ОТЧЁТЫ</span></a>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle">☀️</button>
+    <a href="index.html">← На главную</a>
+  </div>
+</nav>
+<div class="content">
+  <h1>Политика конфиденциальности</h1>
+  <div class="subtitle">Последнее обновление: 22 августа 2026 г.</div>
+
+  <h2>1. Общие положения</h2>
+  <p>Настоящая Политика конфиденциальности определяет порядок обработки и защиты информации пользователей мобильного приложения <strong>«Табель: Отчёты по сменам»</strong> («Приложение», «мы») и веб-сайта сервиса.</p>
+
+  <h2>2. 100% Локальное хранение данных</h2>
+  <p>Приложение спроектировано по принципу максимальной автономности и защиты коммерческой тайны предприятий. Все рабочие данные хранятся <b>исключительно локально на устройстве пользователя</b>:</p>
+  <ul>
+    <li>Списки и ФИО сотрудников бригады</li>
+    <li>Введённые за смену числовые показатели, нормы и метрики выработки</li>
+    <li>История смен и расчётные сводные отчёты</li>
+    <li>Индивидуальные настройки профилей и шаблонов</li>
+  </ul>
+  <p>Мы не передаём и не копируем ваши производственные данные на сторонние серверы.</p>
+
+  <h2>3. Экспорт отчётов и Яндекс.Диск</h2>
+  <p>Выгрузка отчётов (в формате HTML или CSV/Excel) и сохранение в облачную папку Яндекс.Диска производятся <b>только по прямому нажатию пользователя</b>. Приложение взаимодействует с API Яндекс.Диска напрямую с вашего устройства без промежуточных серверов.</p>
+
+  <h2>4. Безопасность и PIN-код руководителя</h2>
+  <p>При включении режима защиты руководителя PIN-код хранится в виде криптографического одностороннего хэша (SHA-256). Исходный PIN-код никуда не передаётся.</p>
+
+  <h2>5. Обратная связь и контакты</h2>
+  <p>По любым вопросам конфиденциальности и обработки информации вы можете связаться с разработчиком: <a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a></p>
+</div>
+<footer>
+  <p>© 2026 MIRORSTAR · <a href="requisites.html">Реквизиты</a> · <a href="index.html">Главная</a></p>
+</footer>
+<script>
+  const themeBtn = document.getElementById('themeToggle');
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  htmlEl.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  themeBtn.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+</script>
+</body>
+</html>

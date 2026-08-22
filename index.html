@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Табель — профессиональный учёт смен и выработки сотрудников</title>
+<meta name="description" content="Android-приложение для начальников смен, мастеров и бригадиров. Учёт состава бригады, замер показателей и выгрузка отчётов в Excel без бумаг.">
+<link rel="canonical" href="https://mirorstar.github.io/tabel/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="canonical" href="https://mirorstar.github.io/tabel/">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08090e;
+    --bg-surface: #10121b;
+    --bg-card: #141724;
+    --bg-card-hover: #1a1e30;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(74, 143, 232, 0.45);
+    --accent: #4a8fe8;
+    --accent-hover: #3b82f6;
+    --accent-glow: rgba(74, 143, 232, 0.28);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --header-bg: rgba(8, 9, 14, 0.88);
+    --overlay-shadow: rgba(0, 0, 0, 0.85);
+    --mockup-bg: #0d0f17;
+  }
+
+  [data-theme="light"] {
+    --bg: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --border: rgba(0, 0, 0, 0.08);
+    --border-hover: rgba(74, 143, 232, 0.6);
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-glow: rgba(37, 99, 235, 0.2);
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --text-dim: #94a3b8;
+    --header-bg: rgba(255, 255, 255, 0.9);
+    --overlay-shadow: rgba(0, 0, 0, 0.1);
+    --mockup-bg: #e2e8f0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+    overflow-x: hidden;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  /* Fixed Glass Header */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 14px 5%;
+    background: var(--header-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: var(--text-main);
+  }
+  .logo img {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .logo span {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    font-weight: 400;
+    color: var(--text-muted);
+    display: block;
+    margin-top: -2px;
+  }
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 22px;
+    align-items: center;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .theme-toggle {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.3s;
+  }
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    transform: scale(1.05);
+  }
+
+  .btn-store-nav {
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-main) !important;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    transition: all 0.3s !important;
+  }
+  .btn-store-nav:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff !important;
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+
+  /* Pinned Cinematic Hero */
+  .hero {
+    height: 100vh;
+    min-height: 700px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: var(--bg);
+  }
+  .hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('assets/hero-bg.jpg') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: 1;
+  }
+  .hero-overlay-dark {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(8, 9, 14, 0.65) 0%, rgba(8, 9, 14, 0.88) 100%);
+    z-index: 2;
+  }
+  [data-theme="light"] .hero-overlay-dark {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(15, 23, 42, 0.9) 100%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    padding: 0 24px;
+    max-width: 960px;
+    animation: heroFadeIn 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes heroFadeIn {
+    0% { opacity: 0; transform: translateY(22px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .top-tag {
+    display: inline-block;
+    letter-spacing: 4px;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: #93c5fd;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(2.3rem, 4.8vw, 4.2rem);
+    letter-spacing: 3px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 22px;
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+  .hero p {
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    font-weight: 300;
+    color: #e2e8f0;
+    max-width: 720px;
+    margin: 0 auto 38px;
+    line-height: 1.65;
+  }
+  .hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn-main {
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    padding: 15px 32px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: 6px;
+    box-shadow: 0 4px 24px var(--accent-glow);
+    transition: all 0.3s;
+  }
+  .btn-main:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--accent-glow);
+  }
+  .btn-ghost {
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    padding: 15px 30px;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.3s;
+  }
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #fff;
+  }
+
+  /* Content Overlay */
+  .content-overlay {
+    position: relative;
+    z-index: 10;
+    background: var(--bg);
+    border-radius: 36px 36px 0 0;
+    box-shadow: 0 -25px 60px var(--overlay-shadow);
+    border-top: 1px solid var(--border);
+    padding: 90px 6% 60px;
+  }
+
+  .section-container {
+    max-width: 1200px;
+    margin: 0 auto 110px;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 54px;
+  }
+  .section-header .sub-label {
+    letter-spacing: 4px;
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .section-title {
+    font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+    letter-spacing: 2px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-main);
+  }
+  .section-desc {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 640px;
+    margin: 14px auto 0;
+    font-weight: 300;
+  }
+
+  /* Panels Grid */
+  .panels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 26px;
+  }
+  .panel-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s cubic-bezier(0.2, 1, 0.3, 1), border-color 0.4s, box-shadow 0.4s, background-color 0.3s;
+  }
+  .panel-card:hover {
+    transform: translateY(-6px) scale(1.015);
+    border-color: var(--border-hover);
+    background: var(--bg-card-hover);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25), 0 0 24px var(--accent-glow);
+  }
+  .panel-card .panel-icon {
+    font-size: 2.2rem;
+    margin-bottom: 18px;
+    display: inline-block;
+  }
+  .panel-card h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    color: var(--text-main);
+  }
+  .panel-card p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* Media Showcase: Full Unclipped Images */
+  .showcase-split {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    align-items: center;
+    gap: 50px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 46px;
+    margin-bottom: 44px;
+    transition: border-color 0.4s, box-shadow 0.4s;
+  }
+  .showcase-split:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  }
+  .showcase-split.reverse {
+    grid-template-columns: 0.95fr 1.05fr;
+  }
+  .showcase-text h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    color: var(--text-main);
+  }
+  .showcase-text p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+    margin-bottom: 22px;
+    font-weight: 300;
+  }
+  .check-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .check-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.92rem;
+    color: var(--text-main);
+  }
+  .check-list li::before {
+    content: '✓';
+    color: var(--accent);
+    font-weight: 800;
+  }
+  
+  .mockup-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  .phone-mockup-card {
+    max-width: 380px;
+    width: 100%;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    background: var(--mockup-bg);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.6s;
+  }
+  .phone-mockup-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+  }
+  .showcase-split:hover .phone-mockup-card {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px rgba(0,0,0,0.45);
+  }
+  .showcase-split:hover .phone-mockup-card img {
+    transform: scale(1.02);
+  }
+
+  .desktop-mockup-card {
+    max-width: 580px;
+    width: 100%;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--mockup-bg);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+  }
+  .desktop-mockup-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+  }
+  .showcase-split:hover .desktop-mockup-card img {
+    transform: scale(1.02);
+  }
+
+  /* Enterprise Custom Config Section (B2B Lead Gen) */
+  .custom-b2b-card {
+    background: linear-gradient(135deg, rgba(74, 143, 232, 0.12) 0%, var(--bg-surface) 100%);
+    border: 1px solid var(--border-hover);
+    border-radius: 24px;
+    padding: 50px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+  }
+  .b2b-info {
+    flex: 1;
+    min-width: 320px;
+  }
+  .b2b-info h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text-main);
+  }
+  .b2b-info p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 18px;
+    font-weight: 300;
+  }
+  .b2b-features {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .b2b-features li {
+    font-size: 0.88rem;
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .b2b-action {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 280px;
+  }
+  .btn-b2b {
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+    padding: 16px 28px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px var(--accent-glow);
+    transition: all 0.3s;
+  }
+  .btn-b2b:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--accent-glow);
+  }
+  .b2b-contact-note {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  /* Prices Section */
+  .price-cards-row {
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .price-box {
+    flex: 1;
+    min-width: 300px;
+    max-width: 440px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: left;
+    position: relative;
+    transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+  }
+  .price-box:hover {
+    transform: translateY(-6px);
+    border-color: var(--border-hover);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+  }
+  .price-box.featured {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, rgba(74, 143, 232, 0.08) 0%, var(--bg-card) 100%);
+    box-shadow: 0 10px 36px var(--accent-glow);
+  }
+  .popular-tag {
+    position: absolute;
+    top: -12px;
+    right: 28px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 12px;
+  }
+  .price-box h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-main);
+  }
+  .price-box .tariff-sub {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+  .price-val {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 6px;
+  }
+  .price-val span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+  .tariff-features {
+    list-style: none;
+    margin: 28px 0 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .tariff-features li {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tariff-features li.active { color: var(--text-main); }
+  .tariff-features li.active::before { content: '●'; color: var(--accent); font-size: 0.75rem; }
+  .tariff-features li.disabled { opacity: 0.45; text-decoration: line-through; }
+  .tariff-features li.disabled::before { content: '○'; font-size: 0.75rem; }
+  .btn-tariff {
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .btn-tariff.free {
+    background: rgba(125, 125, 125, 0.1);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+  }
+  .btn-tariff.free:hover { background: rgba(125, 125, 125, 0.2); }
+  .btn-tariff.pro {
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 16px var(--accent-glow);
+  }
+  .btn-tariff.pro:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 6px 24px var(--accent-glow);
+  }
+
+  /* FAQ Accordion Section */
+  .faq-accordion {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .faq-item:hover { border-color: var(--border-hover); }
+  .faq-question {
+    padding: 20px 24px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-main);
+    user-select: none;
+  }
+  .faq-question::after {
+    content: '+';
+    font-size: 1.4rem;
+    color: var(--accent);
+    transition: transform 0.3s;
+  }
+  .faq-item.active .faq-question::after {
+    transform: rotate(45deg);
+  }
+  .faq-answer {
+    padding: 0 24px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .faq-item.active .faq-answer {
+    padding: 0 24px 22px;
+    max-height: 280px;
+  }
+
+  /* Articles Hub Preview */
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 26px;
+  }
+  .article-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 30px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+  }
+  .article-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--border-hover);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+  }
+  .article-tag {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .article-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .article-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .article-more {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Fade-In Scroll Animation */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Footer */
+  footer {
+    padding: 60px 6% 40px;
+    text-align: center;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border);
+    letter-spacing: 1px;
+  }
+  .footer-contact {
+    margin-bottom: 24px;
+    color: var(--text-muted);
+  }
+  .footer-contact a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .footer-contact a:hover { text-decoration: underline; }
+
+  /* Mobile */
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .hero-bg { background-attachment: scroll; }
+    .showcase-split { grid-template-columns: 1fr !important; gap: 36px; padding: 32px 20px; }
+    .showcase-split.reverse .showcase-text { order: 1; }
+    .showcase-split.reverse .mockup-wrapper { order: 2; }
+    .content-overlay { padding-top: 60px; border-radius: 24px 24px 0 0; }
+    .custom-b2b-card { padding: 32px 24px; flex-direction: column; align-items: stretch; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header with Theme Toggle & Navigation -->
+<header>
+  <a href="#" class="logo">
+    <img src="assets/icon.png" alt="Табель">
+    <div>
+      ТАБЕЛЬ
+      <span>ОТЧЁТЫ ПО СМЕНАМ</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Возможности</a></li>
+    <li><a href="#analytics">Аналитика</a></li>
+    <li><a href="#export">Экспорт</a></li>
+    <li><a href="#custom-b2b">Под ключ</a></li>
+    <li><a href="#prices">Тарифы</a></li>
+    <li><a href="#faq">Инструкции</a></li>
+    <li><a href="#articles">Статьи</a></li>
+  </ul>
+  <div class="header-actions">
+    <button class="theme-toggle" id="themeToggle" title="Переключить тему">☀️</button>
+    <a href="https://www.rustore.ru/" target="_blank" class="btn-store-nav">RuStore</a>
+  </div>
+</header>
+
+<!-- Pinned Hero Section (With Cinematic Photo Background & Slow Smooth Entrance) -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay-dark"></div>
+  <div class="hero-content">
+    <span class="top-tag">ДЛЯ НАЧАЛЬНИКОВ СМЕН И БРИГАДИРОВ</span>
+    <h1>ТАБЕЛЬ СМЕН<br>БЕЗ ПУТАНИЦЫ</h1>
+    <p>Простой и надежный инструмент: учёт состава бригады, замер выработки сотрудников и мгновенная выгрузка отчётов в Excel без бумаг.</p>
+    <div class="hero-buttons">
+      <a href="#prices" class="btn-main">Скачать в RuStore</a>
+      <a href="#custom-b2b" class="btn-ghost">Настройка под ключ</a>
+    </div>
+  </div>
+</section>
+
+<!-- Content Overlay Sliding Up Over Hero -->
+<div class="content-overlay">
+
+  <!-- Features Grid -->
+  <section id="features" class="section-container">
+    <div class="section-header fade-in">
+      <span class="sub-label">ВОЗМОЖНОСТИ</span>
+      <h2 class="section-title">ПОЛНЫЙ КОНТРОЛЬ НАД СМЕНОЙ</h2>
+      <p class="section-desc">Установили на смартфон — и через 2 минуты формируете готовые отчёты для руководства.</p>
+    </div>
+
+    <div class="panels-grid">
+      <div class="panel-card fade-in">
+        <div class="panel-icon">👥</div>
+        <h3>Учёт состава бригады</h3>
+        <p>Быстрый ввод списка сотрудников, назначение старшего со звёздочкой, отметки присутствия и сохранение ростера между сменами.</p>
+      </div>
+
+      <div class="panel-card fade-in">
+        <div class="panel-icon">⚡</div>
+        <h3>100% Автономность</h3>
+        <p>Работайте в цеху, на складе или закрытом объекте без интернета. Все данные хранятся на вашем устройстве.</p>
+      </div>
+
+      <div class="panel-card fade-in">
+        <div class="panel-icon">📊</div>
+        <h3>Любые метрики</h3>
+        <p>Выпуск деталей, выполненные задачи, звонки или замеры времени с автоматическим расчётом эффективности.</p>
+      </div>
+
+      <div class="panel-card fade-in">
+        <div class="panel-icon">🏭</div>
+        <h3>Отраслевые шаблоны</h3>
+        <p>Готовые пресеты для производства, склада, службы охраны, контакт-центра и отдела контроля качества.</p>
+      </div>
+
+      <div class="panel-card fade-in">
+        <div class="panel-icon">☁️</div>
+        <h3>Яндекс.Диск</h3>
+        <p>Автоматическое сохранение отчётов в общую облачную папку для руководства без сторонних серверов.</p>
+      </div>
+
+      <div class="panel-card fade-in">
+        <div class="panel-icon">📁</div>
+        <h3>Экспорт в Excel и HTML</h3>
+        <p>Готовые таблицы для бухгалтерии и наглядные документы для распечатки на А4 или отправки в мессенджеры.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase 1: Analytics (Full Unclipped Screen) -->
+  <section id="analytics" class="section-container">
+    <div class="showcase-split fade-in">
+      <div class="showcase-text">
+        <span class="sub-label">АНАЛИТИКА И СВОДКА</span>
+        <h3>Сводные отчёты без ручных расчётов</h3>
+        <p>Приложение автоматически рассчитывает сумму, среднее значение, минимум и максимум по каждому работнику за день, неделю или месяц.</p>
+        <ul class="check-list">
+          <li>Подсчёт отработанных смен каждого работника</li>
+          <li>Наглядный рейтинг выработки для начисления премий</li>
+          <li>Фильтрация по любому произвольному периоду</li>
+        </ul>
+      </div>
+      <div class="mockup-wrapper">
+        <div class="phone-mockup-card">
+          <img src="assets/screen-analytics.jpg" alt="Аналитика выработки сотрудников">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase 2: Excel / HTML Export (Full Table) -->
+  <section id="export" class="section-container">
+    <div class="showcase-split reverse fade-in">
+      <div class="mockup-wrapper">
+        <div class="desktop-mockup-card">
+          <img src="assets/screen-html.png" alt="Печатный HTML отчёт">
+        </div>
+      </div>
+      <div class="showcase-text">
+        <span class="sub-label">ЭКСПОРТ ДАННЫХ</span>
+        <h3>Готовые отчёты для директора и бухгалтерии</h3>
+        <p>Забудьте о ручном перепечатывании табелей. Выгружайте результаты в один клик прямо с рабочего места.</p>
+        <ul class="check-list">
+          <li><b>Красивый печатный HTML:</b> готов для распечатки на А4 или отправки в рабочий чат</li>
+          <li><b>CSV / Excel:</b> сырые данные для зарплатных ведомостей и таблиц</li>
+          <li><b>Синхронизация с Яндекс.Диском:</b> автоматическое сохранение в папку руководства</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Enterprise B2B Custom Profile Section -->
+  <section id="custom-b2b" class="section-container">
+    <div class="custom-b2b-card fade-in">
+      <div class="b2b-info">
+        <span class="sub-label">ДЛЯ ПРЕДПРИЯТИЙ И ОРГАНИЗАЦИЙ</span>
+        <h3>Индивидуальная настройка метрик под ключ</h3>
+        <p>Нужен готовый регламент под специфику вашего цеха, логистического узла или службы контроля? Мы полностью настроим профиль метрик, формулы выработки и ростер бригады под ваши требования.</p>
+        <ul class="b2b-features">
+          <li>Формулы эффективности</li>
+          <li>Пакетный файл .sconfig за 1 клик</li>
+          <li>Инструкция для сотрудников</li>
+          <li>Оплата через ЮKassa / СБП / Счёт юрлицу</li>
+        </ul>
+      </div>
+      <div class="b2b-action">
+        <a href="mailto:mirorstar.reports@yandex.ru?subject=Заказ%20настройки%20метрик%20Табель%20Pro" class="btn-b2b">Обсудить проект</a>
+        <div class="b2b-contact-note">Напишите нам на <a href="mailto:mirorstar.reports@yandex.ru" style="color: var(--accent); text-decoration: none;">mirorstar.reports@yandex.ru</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prices Section -->
+  <section id="prices" class="section-container">
+    <div class="section-header fade-in">
+      <span class="sub-label">ТАРИФЫ</span>
+      <h2 class="section-title">ПРОЗРАЧНЫЕ И ЧЕСТНЫЕ УСЛОВИЯ</h2>
+      <p class="section-desc">Начните бесплатно без ограничения по времени. Подписка Pro снимает лимиты для больших бригад.</p>
+    </div>
+
+    <div class="price-cards-row fade-in">
+      <div class="price-box">
+        <h3>Базовый</h3>
+        <div class="tariff-sub">Для небольших смен и тестирования</div>
+        <div class="price-val">0 ₽ <span>/ навсегда</span></div>
+        <ul class="tariff-features">
+          <li class="active">До 3 сотрудников в смене</li>
+          <li class="active">История отчётов за 30 дней</li>
+          <li class="active">Печатный экспорт в HTML</li>
+          <li class="active">Все отраслевые шаблоны</li>
+          <li class="active">Полный офлайн-режим</li>
+          <li class="disabled">Выгрузка в CSV / Excel</li>
+        </ul>
+        <a href="https://www.rustore.ru/" target="_blank" class="btn-tariff free">Установить бесплатно</a>
+      </div>
+
+      <div class="price-box featured">
+        <div class="popular-tag">Рекомендуем</div>
+        <h3>Табель Pro</h3>
+        <div class="tariff-sub">Для полноценного управления бригадой</div>
+        <div class="price-val">299 ₽ <span>/ месяц</span></div>
+        <ul class="tariff-features">
+          <li class="active"><b>Безлимитный</b> состав бригады</li>
+          <li class="active"><b>Неограниченный</b> архив смен</li>
+          <li class="active">Экспорт в <b>Excel (CSV)</b> и HTML</li>
+          <li class="active">Облачная копия на Яндекс.Диске</li>
+          <li class="active">Годовой тариф: 2 490 ₽/год (-30%)</li>
+          <li class="active">Приоритетная поддержка</li>
+        </ul>
+        <a href="https://www.rustore.ru/" target="_blank" class="btn-tariff pro">Оформить в RuStore</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Instructions & FAQ Section -->
+  <section id="faq" class="section-container">
+    <div class="section-header fade-in">
+      <span class="sub-label">ИНСТРУКЦИИ И ОТВЕТЫ</span>
+      <h2 class="section-title">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h2>
+      <p class="section-desc">Всё, что нужно знать о работе приложения, безопасности данных и выгрузке отчётов.</p>
+    </div>
+
+    <div class="faq-accordion fade-in">
+      <div class="faq-item">
+        <div class="faq-question">Нужен ли интернет для работы в приложении?</div>
+        <div class="faq-answer">Нет, приложение на 100% автономно. Вы можете заполнять смены и вести учёт в цеху, на закрытом режимном объекте или в подвальном складе без связи. Данные сохраняются локально в зашифрованной базе на телефоне.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Как настроить свои метрики под специфику работы?</div>
+        <div class="faq-answer">В разделе настроек вы можете выбрать готовый шаблон (производство, склад, охрана) или добавить собственные метрики: счётчики деталей, время выполнения задач, рейтинги качества и формулы эффективности.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Как передать отчёт руководству или в бухгалтерию?</div>
+        <div class="faq-answer">Нажмите кнопку «Экспорт» — приложение сформирует красивый печатный HTML-файл для отправки в Telegram/WhatsApp или таблицу Excel (CSV) для бухгалтерских программ. Также поддерживается автозагрузка в папку Яндекс.Диска.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Можно ли купить годовую лицензию или безналичный счёт для компании?</div>
+        <div class="faq-answer">Да, напишите нам на mirorstar.reports@yandex.ru — мы предоставим прямую ссылку на оплату через ЮKassa (СБП, карты) или выставим счёт юрлицу с выдачей годового ключа активации.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Articles & Guides Hub -->
+  <section id="articles" class="section-container">
+    <div class="section-header fade-in">
+      <span class="sub-label">БАЗА ЗНАНИЙ И СТАТЬИ</span>
+      <h2 class="section-title">ПОЛЕЗНЫЕ МАТЕРИАЛЫ</h2>
+      <p class="section-desc">Практические статьи и руководства по организации сменной работы и учёту выработки.</p>
+    </div>
+
+    <div class="articles-grid fade-in">
+      <div class="article-card">
+        <div>
+          <div class="article-tag">ОРГАНИЗАЦИЯ СМЕНЫ</div>
+          <h3>Как бригадиру отказаться от бумажных табелей и сэкономить 40 минут в день</h3>
+          <p>Пошаговое руководство по переходу на цифровой учёт выработки сотрудников на смартфоне.</p>
+        </div>
+        <div class="article-more">Скоро к публикации →</div>
+      </div>
+
+      <div class="article-card">
+        <div>
+          <div class="article-tag">АНАЛИТИКА И ПРЕМИИ</div>
+          <h3>Расчёт эффективности бригады: простые формулы для прозрачного начисления бонусов</h3>
+          <p>Как настроить весовые коэффициенты сложности задач и объективно оценивать вклад каждого рабочего.</p>
+        </div>
+        <div class="article-more">Скоро к публикации →</div>
+      </div>
+
+      <div class="article-card">
+        <div>
+          <div class="article-tag">ОТРАСЛЕВЫЕ ШАБЛОНЫ</div>
+          <h3>Сменный табель на складе и производстве: типовые регламенты и метрики</h3>
+          <p>Обзор готовых пресетов метрик для логистических центров, цехов и отделов технического контроля.</p>
+        </div>
+        <div class="article-more">Скоро к публикации →</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-contact">
+    Поддержка и индивидуальные заказы: <a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a>
+  </div>
+  <div style="margin-bottom: 18px;">
+    <a href="privacy.html" style="color: var(--text-muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;">Политика конфиденциальности</a>
+    <span style="color: var(--border);">•</span>
+    <a href="requisites.html" style="color: var(--text-muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;">Реквизиты</a>
+  </div>
+  <p>MIRORSTAR &copy; 2026. ПРИЛОЖЕНИЕ «ТАБЕЛЬ: ОТЧЁТЫ ПО СМЕНАМ». ВСЕ ПРАВА ЗАЩИЩЕНЫ.</p>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Theme Switcher Logic
+    const themeBtn = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    htmlEl.setAttribute('data-theme', savedTheme);
+    themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+    themeBtn.addEventListener('click', () => {
+      const current = htmlEl.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
+
+    // FAQ Accordion Toggle
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+
+    // Reveal Animation on Scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -30px 0px" });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  });
+</script>
+</body>
+</html>
