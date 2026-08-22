@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>База знаний и статьи — Табель: Отчёты по сменам</title>
+<meta name="description" content="Статьи, практические руководства и регламенты по организации сменной работы, учёту выработки и расчету эффективности бригады.">
+<link rel="canonical" href="https://mirorstar.github.io/tabel/articles.html">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08090e; --bg-surface: #10121b; --bg-card: #141724; --bg-card-hover: #1a1e30;
+    --border: rgba(255, 255, 255, 0.08); --border-hover: rgba(74, 143, 232, 0.45);
+    --accent: #4a8fe8; --accent-hover: #3b82f6; --accent-glow: rgba(74, 143, 232, 0.28);
+    --text-main: #f8fafc; --text-muted: #94a3b8; --text-dim: #64748b;
+  }
+  [data-theme="light"] {
+    --bg: #f8fafc; --bg-surface: #ffffff; --bg-card: #ffffff; --bg-card-hover: #f1f5f9;
+    --border: rgba(0, 0, 0, 0.08); --border-hover: rgba(74, 143, 232, 0.6);
+    --accent: #2563eb; --accent-hover: #1d4ed8; --accent-glow: rgba(37, 99, 235, 0.2);
+    --text-main: #0f172a; --text-muted: #475569; --text-dim: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+    background: var(--bg); color: var(--text-main);
+    line-height: 1.7; padding: 0; -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 6%; background: var(--bg-surface); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo { font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text-main); letter-spacing: 2px; }
+  .nav-logo span { color: var(--accent); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .nav-right a { color: var(--accent); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+  .theme-toggle {
+    background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main);
+    width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .content { max-width: 1100px; margin: 0 auto; padding: 60px 24px 100px; }
+  .page-header { text-align: center; margin-bottom: 50px; }
+  .sub-label { letter-spacing: 4px; font-size: 0.78rem; color: var(--accent); text-transform: uppercase; font-weight: 700; margin-bottom: 12px; display: block; }
+  h1 { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 14px; letter-spacing: 1px; }
+  .subtitle { color: var(--text-muted); font-size: 1.05rem; max-width: 680px; margin: 0 auto; font-weight: 300; }
+  
+  /* Categories filter tabs */
+  .category-tabs {
+    display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px;
+  }
+  .tab-btn {
+    background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-muted);
+    padding: 8px 18px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    transition: all 0.3s;
+  }
+  .tab-btn.active, .tab-btn:hover {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+  }
+
+  /* Articles Grid */
+  .articles-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px;
+  }
+  .article-card {
+    background: var(--bg-surface); border: 1px solid var(--border); border-radius: 20px;
+    padding: 32px; display: flex; flex-direction: column; justify-content: space-between;
+    transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+  }
+  .article-card:hover {
+    transform: translateY(-6px); border-color: var(--border-hover);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.2);
+  }
+  .article-tag {
+    font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 12px;
+  }
+  .article-card h3 {
+    font-size: 1.25rem; font-weight: 700; color: var(--text-main); line-height: 1.4; margin-bottom: 14px;
+  }
+  .article-card p {
+    color: var(--text-muted); font-size: 0.92rem; font-weight: 300; line-height: 1.65; margin-bottom: 24px;
+  }
+  .article-status {
+    font-size: 0.82rem; font-weight: 600; color: var(--text-dim); display: flex; align-items: center; gap: 8px;
+  }
+  .article-status::before {
+    content: '⏱'; font-size: 0.9rem;
+  }
+
+  /* Banner for New Authors / Suggestions */
+  .suggest-box {
+    margin-top: 60px; background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 36px; text-align: center;
+  }
+  .suggest-box h3 { font-size: 1.3rem; margin-bottom: 10px; }
+  .suggest-box p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto; }
+  .suggest-box a { color: var(--accent); font-weight: 600; text-decoration: none; }
+  .suggest-box a:hover { text-decoration: underline; }
+
+  footer {
+    text-align: center; padding: 40px 6%; color: var(--text-dim); font-size: 0.82rem;
+    border-top: 1px solid var(--border); background: var(--bg-surface);
+  }
+  footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">ТАБЕЛЬ <span>БАЗА ЗНАНИЙ</span></a>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" title="Переключить тему">☀️</button>
+    <a href="index.html">← На главную</a>
+  </div>
+</nav>
+
+<div class="content">
+  <div class="page-header">
+    <span class="sub-label">МАТЕРИАЛЫ И РУКОВОДСТВА</span>
+    <h1>База знаний и статьи</h1>
+    <p class="subtitle">Практические рекомендации, формулы эффективности и руководства по учету выработки сотрудников для начальников смен и бригадиров.</p>
+  </div>
+
+  <div class="category-tabs">
+    <button class="tab-btn active">Все материалы</button>
+    <button class="tab-btn">Организация смены</button>
+    <button class="tab-btn">Формулы и премии</button>
+    <button class="tab-btn">Отраслевые регламенты</button>
+  </div>
+
+  <div class="articles-grid">
+    <div class="article-card">
+      <div>
+        <div class="article-tag">ОРГАНИЗАЦИЯ СМЕНЫ</div>
+        <h3>Как бригадиру отказаться от бумажных табелей и сэкономить 40 минут в день</h3>
+        <p>Пошаговое руководство по переходу на цифровой учёт выработки сотрудников на смартфоне без использования сложных корпоративных систем.</p>
+      </div>
+      <div class="article-status">Материал готовится к публикации</div>
+    </div>
+
+    <div class="article-card">
+      <div>
+        <div class="article-tag">АНАЛИТИКА И ПРЕМИИ</div>
+        <h3>Расчёт эффективности бригады: простые формулы для прозрачного начисления бонусов</h3>
+        <p>Как настроить весовые коэффициенты сложности задач, учитывать нормативы и объективно оценивать вклад каждого рабочего без споров.</p>
+      </div>
+      <div class="article-status">Материал готовится к публикации</div>
+    </div>
+
+    <div class="article-card">
+      <div>
+        <div class="article-tag">ОТРАСЛЕВЫЕ ШАБЛОНЫ</div>
+        <h3>Сменный табель на складе и производстве: типовые регламенты и метрики</h3>
+        <p>Обзор готовых пресетов метрик для логистических комплексов, цехов и отделов технического контроля: что измерять и как агрегировать.</p>
+      </div>
+      <div class="article-status">Материал готовится к публикации</div>
+    </div>
+
+    <div class="article-card">
+      <div>
+        <div class="article-tag">БЕЗОПАСНОСТЬ И ДАННЫЕ</div>
+        <h3>Как настроить резервное копирование сменных отчётов на Яндекс.Диск</h3>
+        <p>Инструкция по подключению облачной папки руководства для автоматического сбора табелей со всех сменных участков.</p>
+      </div>
+      <div class="article-status">Материал готовится к публикации</div>
+    </div>
+
+    <div class="article-card">
+      <div>
+        <div class="article-tag">БУХГАЛТЕРИЯ И EXCEL</div>
+        <h3>Экспорт табеля в CSV и Excel: как быстро подготовить данные для зарплатной ведомости</h3>
+        <p>Руководство по обработке экспортированных данных из приложения «Табель» в 1С и электронных таблицах.</p>
+      </div>
+      <div class="article-status">Материал готовится к публикации</div>
+    </div>
+
+    <div class="article-card">
+      <div>
+        <div class="article-tag">ОПЫТ ПРЕДПРИЯТИЙ</div>
+        <h3>Кейс внедрения: как отдел видеоконтроля перевёл учёт 20 операторов на смартфоны</h3>
+        <p>Практический пример настройки индивидуального профиля метрик, замера времени задач и исключения старшего смены из расчёта выработки.</p>
+      </div>
+      <div class="article-status">Материал готовится к публикации</div>
+    </div>
+  </div>
+
+  <div class="suggest-box">
+    <h3>Хотите разобрать регламент вашего предприятия?</h3>
+    <p>Напишите нам тему или специфику вашего производства — мы подготовим подробный разбор и шаблон метрик под вашу задачу.</p>
+    <a href="mailto:mirorstar.reports@yandex.ru?subject=Предложить%20тему%20для%20статьи">Предложить тему: mirorstar.reports@yandex.ru →</a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 MIRORSTAR · <a href="privacy.html">Политика конфиденциальности</a> · <a href="requisites.html">Реквизиты</a> · <a href="index.html">Главная</a></p>
+</footer>
+
+<script>
+  const themeBtn = document.getElementById('themeToggle');
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  htmlEl.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  themeBtn.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+</script>
+</body>
+</html>
