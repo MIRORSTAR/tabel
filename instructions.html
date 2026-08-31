@@ -98,12 +98,20 @@
       radial-gradient(1200px 260px at 15% -20%, var(--accent-soft), transparent 60%);
   }
   .hero-inner { max-width: 1180px; margin: 0 auto; }
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 32px;
+  }
   .home-logo {
     display: inline-flex; align-items: center; gap: 8px;
     text-decoration: none; color: var(--ink); font-weight: 700;
-    font-size: 14px; letter-spacing: .04em; margin-bottom: 32px;
+    font-size: 14px; letter-spacing: .04em;
   }
   .home-logo img { width: 26px; height: 26px; border-radius: 7px; display: block; }
+  .home-link {
+    text-decoration: none; color: var(--accent); font-weight: 600;
+    font-size: 14px;
+  }
   .kicker {
     font-family: "IBM Plex Mono", monospace;
     font-size: 12.5px;
@@ -371,7 +379,10 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <a href="index.html" class="home-logo"><img src="assets/icon.png" alt=""> ТАБЕЛЬ</a>
+    <div class="top-bar">
+      <a href="index.html" class="home-logo"><img src="assets/icon.png" alt=""> ТАБЕЛЬ</a>
+      <a href="index.html" class="home-link">← На главную</a>
+    </div>
     <p class="kicker">Табель · руководство пользователя</p>
     <h1 class="title">Инструкция</h1>
     <p class="lede">Как настроить и вести учёт смен, показателей и выработки бригады —
