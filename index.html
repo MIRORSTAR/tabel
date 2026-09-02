@@ -702,6 +702,35 @@
     max-height: 280px;
   }
 
+  /* Changelog */
+  .changelog-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    max-height: 440px;
+    overflow-y: auto;
+    border-radius: 14px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-hover) transparent;
+  }
+  .changelog-wrap::-webkit-scrollbar { width: 4px; }
+  .changelog-wrap::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
+  .changelog { display: flex; flex-direction: column; gap: 10px; padding: 2px; }
+  .cl-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 24px;
+  }
+  .cl-item.cl-latest { border-color: var(--border-hover); }
+  .cl-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .cl-version { background: var(--bg-card-hover); color: var(--text-muted); border-radius: 6px; padding: 3px 10px; font-size: 0.78rem; font-weight: 700; }
+  .cl-version.cl-latest { background: var(--accent); color: #fff; }
+  .cl-date { font-size: 0.8rem; color: var(--text-muted); }
+  .cl-list { list-style: none; }
+  .cl-list li { font-size: 0.88rem; color: var(--text-muted); padding: 3px 0; display: flex; align-items: flex-start; gap: 8px; line-height: 1.55; font-weight: 300; }
+  .cl-list li::before { content: "—"; color: var(--text-muted); flex-shrink: 0; }
+  .cl-item.cl-latest .cl-list li::before { color: var(--accent); }
+
   /* Articles Hub Preview */
   .articles-grid {
     display: grid;
@@ -1070,26 +1099,49 @@
   <!-- Changelog -->
   <section id="changelog" class="section-container">
     <div class="section-header fade-in">
-      <span class="sub-label">ИСТОРИЯ ВЕРСИЙ</span>
-      <h2 class="section-title">ЧТО НОВОГО</h2>
-      <p class="section-desc">Если не получается установить через RuStore — <a href="https://github.com/MIRORSTAR/tabel/releases/latest/download/Tabel-latest.apk" style="color: var(--accent);">скачайте APK прямо с сайта</a>.</p>
+      <span class="sub-label">ЧТО НОВОГО</span>
+      <h2 class="section-title">ИСТОРИЯ ОБНОВЛЕНИЙ</h2>
+      <p class="section-desc">Что изменилось в каждой версии.</p>
     </div>
 
-    <div class="faq-accordion fade-in">
-      <div class="faq-item">
-        <div class="faq-question">Версия 1.1.0 — 2 сентября 2026</div>
-        <div class="faq-answer">
-          <b>Новое:</b> обновлён внешний вид карточек (направленная светотень), кнопки «+ Сотрудник» и «Архив» — единая панель внизу экрана, компактный сворачиваемый список сотрудников, более аккуратное редактирование названия метрики с подтверждением перед удалением, на сайте появилась подробная инструкция пользователя.
-          <br><br>
-          <b>Исправления:</b> клавиатура больше не зависает поверх экрана после некоторых действий, устранено наложение поля «Название организации» на список метрик при первом запуске, поле «Подразделение» теперь доступно рядовому сотруднику, список сотрудников не прыгает наверх при отметке в «Составе смены», конструктор формул больше не помечает часть формул как «метрика удалена», точка в календаре сразу становится зелёной после успешной отправки на Яндекс.Диск, другие мелкие исправления стабильности.
-        </div>
-      </div>
+    <div class="changelog-wrap fade-in">
+      <div class="changelog">
 
-      <div class="faq-item">
-        <div class="faq-question">Версия 1.0 — первый релиз</div>
-        <div class="faq-answer">
-          Учёт смен и состава бригады, гибкие метрики (числа, время, оценки, формулы), экспорт отчётов в HTML и CSV, синхронизация и совместная работа команд через Яндекс.Диск, подписка Табель Pro.
+        <div class="cl-item cl-latest">
+          <div class="cl-header">
+            <span class="cl-version cl-latest">1.1.0</span>
+            <span class="cl-date">2 сентября 2026</span>
+          </div>
+          <ul class="cl-list">
+            <li>Обновлён внешний вид карточек (направленная светотень)</li>
+            <li>Кнопки «+ Сотрудник» и «Архив» — единая панель внизу экрана</li>
+            <li>Компактный сворачиваемый список сотрудников</li>
+            <li>Более аккуратное редактирование названия метрики с подтверждением перед удалением</li>
+            <li>На сайте появилась подробная инструкция пользователя</li>
+            <li>Клавиатура больше не зависает поверх экрана после некоторых действий</li>
+            <li>Устранено наложение поля «Название организации» на список метрик при первом запуске</li>
+            <li>Поле «Подразделение» теперь доступно рядовому сотруднику</li>
+            <li>Список сотрудников не прыгает наверх при отметке в «Составе смены»</li>
+            <li>Конструктор формул больше не помечает часть формул как «метрика удалена»</li>
+            <li>Точка в календаре сразу становится зелёной после успешной отправки на Яндекс.Диск</li>
+            <li>Другие мелкие исправления стабильности</li>
+          </ul>
         </div>
+
+        <div class="cl-item">
+          <div class="cl-header">
+            <span class="cl-version">1.0</span>
+            <span class="cl-date">август 2026</span>
+          </div>
+          <ul class="cl-list">
+            <li>Учёт смен и состава бригады</li>
+            <li>Гибкие метрики: числа, время, оценки, формулы</li>
+            <li>Экспорт отчётов в HTML и CSV</li>
+            <li>Синхронизация и совместная работа команд через Яндекс.Диск</li>
+            <li>Подписка Табель Pro</li>
+          </ul>
+        </div>
+
       </div>
     </div>
   </section>
