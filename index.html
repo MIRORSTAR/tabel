@@ -457,6 +457,22 @@
     transform: scale(1.02);
   }
 
+  .mockup-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+  }
+  .mockup-link {
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .mockup-link:hover {
+    text-decoration: underline;
+  }
   .desktop-mockup-card {
     max-width: 580px;
     width: 100%;
@@ -954,8 +970,11 @@
   <section id="export" class="section-container">
     <div class="showcase-split reverse fade-in">
       <div class="mockup-wrapper">
-        <div class="desktop-mockup-card">
-          <img src="assets/screen-html.png" alt="Печатный HTML отчёт">
+        <div class="mockup-stack">
+          <div class="desktop-mockup-card">
+            <img src="assets/screen-html.png" alt="Печатный HTML отчёт">
+          </div>
+          <a href="example-report.html" target="_blank" rel="noopener" class="mockup-link">Пример отчёта на две смены →</a>
         </div>
       </div>
       <div class="showcase-text">
