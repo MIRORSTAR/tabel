@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112191335', 'ym');
+
+    ym(112191335, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/112191335" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Как избавиться от бумажного табеля на производстве и складе — Табель</title>
+<meta name="description" content="Пошаговый переход со сменных бумажных журналов на мобильный учёт выработки бригады: экономия времени бригадира, метрики под любую задачу, экспорт в Excel и HTML.">
+<link rel="canonical" href="https://mirorstar.github.io/tabel/articles/01-paper-timesheet-replacement.html">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="apple-touch-icon" href="../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08090e; --bg-surface: #10121b; --bg-card: #141724; --bg-card-hover: #1a1e30;
+    --border: rgba(255, 255, 255, 0.08); --border-hover: rgba(74, 143, 232, 0.45);
+    --accent: #4a8fe8; --accent-hover: #3b82f6; --accent-glow: rgba(74, 143, 232, 0.28);
+    --text-main: #f8fafc; --text-muted: #94a3b8; --text-dim: #64748b;
+  }
+  [data-theme="light"] {
+    --bg: #f8fafc; --bg-surface: #ffffff; --bg-card: #ffffff; --bg-card-hover: #f1f5f9;
+    --border: rgba(0, 0, 0, 0.08); --border-hover: rgba(74, 143, 232, 0.6);
+    --accent: #2563eb; --accent-hover: #1d4ed8; --accent-glow: rgba(37, 99, 235, 0.2);
+    --text-main: #0f172a; --text-muted: #475569; --text-dim: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Montserrat', 'Inter', -apple-system, sans-serif;
+    background: var(--bg); color: var(--text-main);
+    line-height: 1.7; padding: 0; -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 6%; background: var(--bg-surface); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo { font-weight: 700; font-size: 1.1rem; text-decoration: none; color: var(--text-main); letter-spacing: 2px; }
+  .nav-logo span { color: var(--accent); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .nav-right a { color: var(--accent); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+  .theme-toggle {
+    background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main);
+    width: 36px; height: 36px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+
+  .content { max-width: 760px; margin: 0 auto; padding: 48px 24px 0; }
+  .article-tag {
+    font-size: 0.78rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+    font-weight: 700; margin-bottom: 16px; display: block;
+  }
+  h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 18px; letter-spacing: 0.2px; line-height: 1.25; }
+  .article-meta {
+    display: flex; gap: 16px; flex-wrap: wrap; color: var(--text-dim); font-size: 0.85rem;
+    font-weight: 600; margin-bottom: 32px; padding-bottom: 28px; border-bottom: 1px solid var(--border);
+  }
+
+  .article-hero { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  .article-hero img {
+    width: 100%; display: block; border-radius: 20px; border: 1px solid var(--border);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+  }
+
+  .prose { font-size: 1.02rem; color: var(--text-main); }
+  .prose p { margin: 0 0 20px; color: var(--text-muted); }
+  .prose p.lead { font-size: 1.12rem; color: var(--text-main); font-weight: 400; }
+  .prose strong { color: var(--text-main); font-weight: 700; }
+  .prose h2 { font-size: 1.5rem; font-weight: 800; margin: 44px 0 18px; letter-spacing: 0.2px; }
+  .prose h3 { font-size: 1.15rem; font-weight: 700; margin: 30px 0 12px; color: var(--accent); }
+  .prose ul, .prose ol { margin: 0 0 20px; padding-left: 1.3em; color: var(--text-muted); }
+  .prose li { margin-bottom: 10px; }
+  .prose ol { list-style: none; padding-left: 0; counter-reset: steps; }
+  .prose ol > li {
+    counter-increment: steps; position: relative; padding-left: 2.2em; margin-bottom: 18px;
+  }
+  .prose ol > li::before {
+    content: counter(steps); position: absolute; left: 0; top: -1px;
+    width: 1.6em; height: 1.6em; border-radius: 50%; background: var(--bg-card);
+    border: 1px solid var(--border-hover); color: var(--accent); font-weight: 700; font-size: 0.85em;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .prose a { color: var(--accent); font-weight: 600; }
+
+  figure.mid-image { margin: 32px 0; }
+  figure.mid-image img {
+    width: 100%; display: block; border-radius: 16px; border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  figure.mid-image figcaption { margin-top: 10px; font-size: 0.85rem; color: var(--text-dim); text-align: center; }
+
+  .inline-note {
+    background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    border-radius: 10px; padding: 14px 18px; margin: -6px 0 20px; font-size: 0.92rem; color: var(--text-muted);
+  }
+  .inline-note a { color: var(--accent); font-weight: 600; }
+
+  .article-cta {
+    margin: 48px 0; background: linear-gradient(135deg, var(--accent-glow) 0%, var(--bg-surface) 100%);
+    border: 1px solid var(--border-hover); border-radius: 20px; padding: 36px; text-align: center;
+  }
+  .article-cta h3 { font-size: 1.35rem; font-weight: 800; margin-bottom: 10px; }
+  .article-cta p { color: var(--text-muted); margin-bottom: 22px; font-size: 0.95rem; }
+  .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-main {
+    background: var(--accent); color: #fff; padding: 14px 30px; border-radius: 12px;
+    font-weight: 700; text-decoration: none; font-size: 0.95rem; transition: background 0.25s;
+  }
+  .btn-main:hover { background: var(--accent-hover); }
+  .btn-ghost {
+    background: transparent; color: var(--text-main); border: 1px solid var(--border-hover);
+    padding: 14px 30px; border-radius: 12px; font-weight: 600; text-decoration: none; font-size: 0.95rem;
+  }
+
+  .related-wrap { max-width: 1100px; margin: 20px auto 0; padding: 40px 24px 20px; border-top: 1px solid var(--border); }
+  .related-wrap h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 24px; }
+  .articles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .article-card {
+    background: var(--bg-surface); border: 1px solid var(--border); border-radius: 18px;
+    padding: 26px; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .article-card .article-tag { font-size: 0.7rem; letter-spacing: 1.5px; margin-bottom: 10px; }
+  .article-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--text-main); line-height: 1.4; margin-bottom: 10px; }
+  .article-card p { color: var(--text-muted); font-size: 0.86rem; font-weight: 300; line-height: 1.6; margin-bottom: 18px; }
+  .article-status { font-size: 0.78rem; font-weight: 600; color: var(--text-dim); display: flex; align-items: center; gap: 6px; }
+  .article-status::before { content: '⏱'; font-size: 0.85rem; }
+
+  footer {
+    text-align: center; padding: 40px 6%; color: var(--text-dim); font-size: 0.82rem;
+    border-top: 1px solid var(--border); background: var(--bg-surface); margin-top: 20px;
+  }
+  footer a { color: var(--text-muted); text-decoration: none; margin: 0 10px; }
+  footer a:hover { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    .content { padding: 32px 20px 0; }
+    .article-cta { padding: 28px 22px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html" class="nav-logo">ТАБЕЛЬ <span>БАЗА ЗНАНИЙ</span></a>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" title="Переключить тему">☀️</button>
+    <a href="../articles.html">← Все статьи</a>
+  </div>
+</nav>
+
+<div class="content">
+  <span class="article-tag">ОРГАНИЗАЦИЯ СМЕНЫ</span>
+  <h1>Как избавиться от бумажного табеля на производстве и складе: пошаговый перевод сменного учёта в смартфон</h1>
+  <div class="article-meta">
+    <span>3 сентября 2026</span>
+    <span>·</span>
+    <span>4 минуты чтения</span>
+  </div>
+</div>
+
+<div class="article-hero">
+  <img src="../assets/articles/01-cover.jpg" alt="Стопка бумажных журналов учёта, калькулятор и смартфон с приложением Табель на фоне цеха">
+</div>
+
+<div class="content">
+  <div class="prose">
+    <p class="lead">Конец 12-часовой смены на производстве или складе. Рабочие переодеваются и спешат домой, а мастер участка или бригадир садится за стол... и начинается второй рабочий день.</p>
+
+    <p>На столе — стопка мятых бумажных журналов, разрозненные записи на планшетах, сообщения в рабочем чате и калькулятор. Нужно свести: кто сегодня реально вышел, кто подменил напарника, сколько деталей выточено, сколько паллет собрано и нет ли брака.</p>
+
+    <p>В среднем бригадир тратит <strong>от 30 до 50 минут в конце каждой смены</strong> только на то, чтобы перенести цифры с бумаги в таблицу Excel на компьютере. А в конце месяца неизбежно начинаются споры: «Я в ту пятницу закрыл 140 позиций, а в ведомости стоит 110!».</p>
+
+    <h2>Почему бумажные журналы и табели убивают время и нервы?</h2>
+    <ol>
+      <li><strong>Привязка к офису и компьютеру.</strong> Компьютер с Excel стоит в кабинете, а бумажный планшет легко забыть на верстаке. Смартфон, в отличие от них, <strong>всегда с собой в кармане</strong> — даже во время обхода склада или цеха весь состав смены и текущие показатели у вас прямо под рукой.</li>
+      <li><strong>Человеческий фактор и потерянные данные.</strong> Бумажный журнал пачкается, промокает в цеху, а записи карандашом на коленке легко стереть, спутать или потерять.</li>
+      <li><strong>Двойная рутинная работа.</strong> Сначала показатели фиксируются на бумаге или черновиках, а затем повторно перебиваются в офисную таблицу.</li>
+      <li><strong>Отсутствие прозрачности.</strong> Если премия или сдельная выработка завязаны на сложные показатели (часы, объём, процент брака), посчитать их «на глаз» справедливо практически невозможно.</li>
+      <li><strong>Сложность сводки нескольких смен.</strong> Когда на объекте работают 3–4 сменяющие друг друга бригады, свести их разрозненные отчёты в единую картину для руководства — это часы головной боли.</li>
+    </ol>
+
+    <figure class="mid-image">
+      <img src="../assets/articles/01-workshop.jpg" alt="Бригадир на производстве показывает список сотрудников в приложении Табель на смартфоне">
+      <figcaption>Весь состав смены и показатели — под рукой, без похода в кабинет к компьютеру</figcaption>
+    </figure>
+
+    <h2>Как перевести учёт бригады в смартфон за 5 минут</h2>
+    <p>Чтобы решить эту проблему без внедрения тяжёлых и дорогих корпоративных ERP-систем за сотни тысяч рублей, мы создали простое российское Android-приложение — <strong>«Табель: Отчёты по сменам»</strong>. Вот как выстраивается работа смены по новым правилам:</p>
+
+    <h3>1. Заполнение прямо в цеху — на 100% офлайн</h3>
+    <p>В цехах, цокольных этажах складов или на удалённых промышленных объектах интернет часто не ловит. В «Табеле» подключение к сети вообще не требуется. Бригадир открывает приложение, отмечает присутствующих сотрудников и вносит показатели смены. Все данные сохраняются на устройстве моментально.</p>
+
+    <h3>2. Любые метрики под вашу специфику</h3>
+    <p>Учёт — это не только часы «явка/неявка». Вы можете настроить любые показатели под свои задачи:</p>
+    <ul>
+      <li>Числовые значения (выработано штук, собрано заказов, тоннаж);</li>
+      <li>Время (фактические часы на линии, время простоя станка);</li>
+      <li>Оценки качества от 1 до 5 (соблюдение регламента, чистота рабочего места);</li>
+      <li>Переключатели «Да / Нет» (пройден инструктаж, сдан инструмент);</li>
+      <li>Ежемесячные показатели (заполняются 1 раз в месяц с напоминанием).</li>
+    </ul>
+
+    <h3>3. Готовые отраслевые шаблоны</h3>
+    <p>Не нужно настраивать всё с нуля. При первом запуске можно выбрать готовый профиль:</p>
+    <ul>
+      <li><strong>Производство</strong> (выпуск, брак, простой, смены);</li>
+      <li><strong>Склад</strong> (отгрузки, приёмки, брак, часы работы);</li>
+      <li><strong>Охрана</strong> (обходы, инциденты, нарушения, замечания);</li>
+      <li><strong>Контакт-центр</strong> (звонки, задачи, инциденты с учётом времени).</li>
+    </ul>
+    <p>Любой шаблон можно донастроить под себя или начать с пустого и добавить показатели самостоятельно.</p>
+
+    <h3>4. Итоговая сводка в Excel и HTML в 1 клик</h3>
+    <p>В конце смены больше не нужно сидеть за компьютером. Нажимаете кнопку «Отправить» в разделе сводки — и приложение формирует готовый структурированный HTML-отчёт или чистый CSV/Excel-файл. Его можно за 2 секунды переслать в рабочий чат руководству или напрямую отправить в бухгалтерию.</p>
+    <div class="inline-note">→ <a href="../example-report.html" target="_blank" rel="noopener">Посмотреть живой пример готового отчёта</a> — на демо-данных, ровно так, как выглядит выгрузка на две смены.</div>
+
+    <h3>5. Безопасность: данные на вашем личном Яндекс.Диске</h3>
+    <p>Приложение не передаёт производственные отчёты на сторонние зарубежные серверы. Вся облачная синхронизация и резервное копирование работают через ваш личный или корпоративный Яндекс.Диск. Если на объекте работают 5 бригад, руководитель одной кнопкой выгружает сводку сразу со всех подразделений из общей папки.</p>
+
+    <h2>Почему это выгодно для компании и бригадира?</h2>
+    <ul>
+      <li><strong>Базовый тариф полностью бесплатный:</strong> рядовые сотрудники и небольшие смены (до 3 человек) могут пользоваться приложением без ограничений по времени.</li>
+      <li><strong>Платит только один человек:</strong> платная Pro-версия для расширенной выгрузки в CSV/Excel и ведения неограниченного состава бригады оформляется только на устройство руководителя/бригадира.</li>
+      <li><strong>Отечественная экосистема:</strong> приложение официально доступно в RuStore, не зависит от зарубежных блокировок и сервисов Google.</li>
+    </ul>
+  </div>
+
+  <div class="article-cta">
+    <h3>Готовы сэкономить 40 минут на каждой смене?</h3>
+    <p>Установите «Табель: Отчёты по сменам» и настройте первую бригаду за 5 минут.</p>
+    <div class="cta-buttons">
+      <a href="https://www.rustore.ru/catalog/app/com.mirorstar.report" target="_blank" rel="noopener noreferrer" class="btn-main" onclick="ym(112191335,'reachGoal','download_rustore')">Скачать в RuStore</a>
+      <a href="../instructions.html" class="btn-ghost">Как это работает →</a>
+    </div>
+  </div>
+</div>
+
+<div class="related-wrap">
+  <h2>Читайте также</h2>
+  <div class="articles-grid">
+    <div class="article-card">
+      <div>
+        <div class="article-tag">АНАЛИТИКА И ПРЕМИИ</div>
+        <h3>Расчёт эффективности бригады: простые формулы для прозрачного начисления бонусов</h3>
+        <p>Как настроить весовые коэффициенты сложности задач, учитывать нормативы и объективно оценивать вклад каждого рабочего без споров.</p>
+      </div>
+      <div class="article-status">Материал готовится к публикации</div>
+    </div>
+    <div class="article-card">
+      <div>
+        <div class="article-tag">ОТРАСЛЕВЫЕ ШАБЛОНЫ</div>
+        <h3>Сменный табель на складе и производстве: типовые регламенты и метрики</h3>
+        <p>Обзор готовых пресетов метрик для логистических комплексов, цехов и отделов технического контроля: что измерять и как агрегировать.</p>
+      </div>
+      <div class="article-status">Материал готовится к публикации</div>
+    </div>
+    <div class="article-card">
+      <div>
+        <div class="article-tag">БЕЗОПАСНОСТЬ И ДАННЫЕ</div>
+        <h3>Как настроить резервное копирование сменных отчётов на Яндекс.Диск</h3>
+        <p>Инструкция по подключению облачной папки руководства для автоматического сбора табелей со всех сменных участков.</p>
+      </div>
+      <div class="article-status">Материал готовится к публикации</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 MIRORSTAR · <a href="../privacy.html">Политика конфиденциальности</a> · <a href="../requisites.html">Реквизиты</a> · <a href="../index.html">Главная</a></p>
+</footer>
+
+<script>
+  const themeBtn = document.getElementById('themeToggle');
+  const htmlEl = document.documentElement;
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  htmlEl.setAttribute('data-theme', savedTheme);
+  themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+  themeBtn.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+</script>
+</body>
+</html>
