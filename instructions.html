@@ -361,6 +361,9 @@
     color: var(--muted);
     text-align: center;
   }
+  .footer-contact { margin-bottom: 18px; color: var(--muted); }
+  .footer-contact a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .footer-contact a:hover { text-decoration: underline; }
 
 
   @media (max-width: 720px) {
@@ -876,7 +879,17 @@
 
 </main>
 
-<footer>Табель · Инструкция пользователя · обновлено 02.09.2026</footer>
+<footer>
+  <div class="footer-contact">
+    Поддержка и индивидуальные заказы: <a href="mailto:mirorstar.reports@yandex.ru">mirorstar.reports@yandex.ru</a>
+  </div>
+  <div style="margin-bottom: 18px;">
+    <a href="privacy.html" style="color: var(--muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;">Политика конфиденциальности</a>
+    <span style="color: var(--line-strong);">•</span>
+    <a href="requisites.html" style="color: var(--muted); text-decoration: none; margin: 0 12px; font-size: 0.85rem;">Реквизиты</a>
+  </div>
+  <p>Табель · Инструкция пользователя · обновлено 08.09.2026</p>
+</footer>
 
 <script>
   document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
