@@ -246,9 +246,21 @@
   }
   .hero-buttons {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-buttons-row {
+    display: flex;
     justify-content: center;
     gap: 16px;
     flex-wrap: wrap;
+    width: 100%;
+  }
+  .hero-buttons-row .btn-main {
+    flex: 1 1 220px;
+    max-width: 280px;
+    justify-content: center;
   }
   .btn-main {
     border: 1px solid var(--accent);
@@ -289,6 +301,14 @@
   .btn-ghost:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: #fff;
+  }
+  .btn-ghost.on-surface {
+    color: var(--text-main);
+    border-color: var(--border-hover);
+  }
+  .btn-ghost.on-surface:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
   }
 
   /* Content Overlay */
@@ -889,7 +909,10 @@
     <h1>ТАБЕЛЬ СМЕН<br>БЕЗ ПУТАНИЦЫ</h1>
     <p>Простой и надежный инструмент: учёт состава бригады, замер выработки сотрудников и мгновенная выгрузка отчётов в Excel без бумаг.</p>
     <div class="hero-buttons">
-      <a href="https://www.rustore.ru/catalog/app/com.mirorstar.report" target="_blank" rel="noopener noreferrer" class="btn-main" onclick="ym(112191335,'reachGoal','download_rustore')">Скачать в RuStore</a>
+      <div class="hero-buttons-row">
+        <a href="https://www.rustore.ru/catalog/app/com.mirorstar.report" target="_blank" rel="noopener noreferrer" class="btn-main" onclick="ym(112191335,'reachGoal','download_rustore')">Скачать в RuStore</a>
+        <a href="https://github.com/MIRORSTAR/tabel/releases/download/v1.2.2/Tabel-rustore-v1.2.2-7.apk" class="btn-main" onclick="ym(112191335,'reachGoal','download_apk')">↓ Скачать APK</a>
+      </div>
       <a href="#custom-b2b" class="btn-ghost">Настройка под ключ</a>
     </div>
   </div>
@@ -1121,7 +1144,7 @@
       </div>
     </div>
     <div style="text-align: center; margin-top: 38px;">
-      <a href="articles.html" class="btn-ghost" style="border-color: var(--border-hover); font-size: 0.82rem; padding: 14px 28px;">Все статьи базы знаний →</a>
+      <a href="articles.html" class="btn-ghost on-surface" style="font-size: 0.82rem; padding: 14px 28px;">Все статьи базы знаний →</a>
     </div>
   </section>
 
@@ -1133,16 +1156,26 @@
       <p class="section-desc">Что изменилось в каждой версии.</p>
     </div>
 
-    <div style="text-align: center; margin-bottom: 38px;" class="fade-in">
-      <a href="https://github.com/MIRORSTAR/tabel/releases/download/v1.2.1/Tabel-rustore-v1.2.1-6.apk" class="btn-ghost" style="border-color: var(--border-hover); font-size: 0.82rem; padding: 14px 28px;" onclick="ym(112191335,'reachGoal','download_apk')">↓ Скачать APK с сайта</a>
-    </div>
-
     <div class="changelog-wrap fade-in">
       <div class="changelog">
 
         <div class="cl-item cl-latest">
           <div class="cl-header">
-            <span class="cl-version cl-latest">1.2.1</span>
+            <span class="cl-version cl-latest">1.2.2</span>
+            <span class="cl-date">16 сентября 2026</span>
+          </div>
+          <ul class="cl-list">
+            <li>Синхронизация через Яндекс.Диск и «Поделиться»: файлы .sreport, отправленные через мессенджеры, почту или скопированные в папку бригады вручную, теперь гарантированно учитываются</li>
+            <li>Умное разрешение версий: если за одну смену на Диске оказалось несколько вариантов отчёта, Табель выбирает самый актуальный по времени изменения</li>
+            <li>Защита данных подразделения: файл из чужой бригады в папке теперь помечается как аномалия, а не принимается как свой</li>
+            <li>Бесшовное обновление через RuStore: повторная загрузка обновления больше не запускается поверх уже идущей</li>
+            <li>Другие улучшения стабильности</li>
+          </ul>
+        </div>
+
+        <div class="cl-item">
+          <div class="cl-header">
+            <span class="cl-version">1.2.1</span>
             <span class="cl-date">10 сентября 2026</span>
           </div>
           <ul class="cl-list">
