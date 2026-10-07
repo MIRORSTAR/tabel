@@ -185,6 +185,10 @@
     .nav-right { gap: 8px; }
     .nav-right a { font-size: 0.72rem; }
   }
+  /* Floating download button (same as on the ShiftSchedule site), always one line */
+  .floating-cta { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: max-content; max-width: calc(100vw - 32px); border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+  .floating-cta .btn-main { display: inline-block; white-space: nowrap; }
+  @media (max-width: 480px) { .floating-cta .btn-main { padding: 10px 22px; } }
 </style>
 </head>
 <body>
@@ -323,6 +327,10 @@
 <footer>
   <p>© 2026 MIRORSTAR · <a href="../privacy.html">Политика конфиденциальности</a> · <a href="../requisites.html">Реквизиты</a> · <a href="../index.html">Главная</a></p>
 </footer>
+<div class="floating-cta">
+  <a href="https://www.rustore.ru/catalog/app/com.mirorstar.report" class="btn-main" target="_blank" rel="noopener noreferrer" onclick="if(window.ym) ym(112191335,'reachGoal','download_rustore')">Скачать приложение</a>
+</div>
+
 
 <script>
   const themeBtn = document.getElementById('themeToggle');
